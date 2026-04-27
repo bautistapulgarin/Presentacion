@@ -48,42 +48,48 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
 /* FREQ TABLE */
-.freq-table{width:100%;border-collapse:collapse;}
-.freq-table tr.freq-row{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer;}
-.freq-table tr.freq-row:hover{background:var(--bg2);}
-.freq-table td{padding:11px 8px;vertical-align:middle;}
-.freq-rank{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);width:30px;text-align:center;}
-.freq-name{font-size:13px;font-weight:500;color:var(--text);}
-.freq-dots{display:flex;gap:5px;justify-content:center;width:92px;}
+.freq-table{width:100%;border-collapse:collapse;margin-top:10px;}
+.freq-row{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer;}
+.freq-row:hover{background:var(--bg2);}
+.freq-table td{padding:14px 10px;vertical-align:middle;}
+.freq-rank{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);width:40px;text-align:center;}
+.freq-name{font-size:14px;font-weight:600;color:var(--text);}
+.freq-sub{font-size:11px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;}
+.freq-dots{display:flex;gap:6px;justify-content:center;width:110px;}
 .dot{width:11px;height:11px;border-radius:50%;}
 .dot-rl{background:var(--green);}
 .dot-vi{background:var(--blue);}
 .dot-ma{background:var(--coral);}
 .dot-am{background:var(--purple);}
 .dot-cons{background:var(--amber);}
-.dot-empty{background:#d0d4de;border:1px solid var(--border2);}
+.dot-empty{background:#d0d4de;opacity:0.3;}
 
-/* DESGLOSE STYLES */
+/* DESGLOSE / DETAIL */
 .freq-detail{display:none;background:#fcfdfe;}
 .freq-detail.active{display:table-row;}
-.detail-content{padding:15px 40px !important;border-bottom:1px solid var(--border);}
-.detail-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:12px;}
-.detail-card{background:#fff;border:1px solid var(--border);padding:10px;border-radius:6px;font-size:12px;}
-.detail-proj{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
-.detail-obs{color:var(--text2);font-style:italic;}
+.detail-content{padding:20px 50px !important;border-bottom:1px solid var(--border);}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:12px;}
+.detail-card{background:#fff;border:1px solid var(--border);padding:12px;border-radius:8px;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,0.02);}
+.detail-proj{font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.detail-obs{color:var(--text2);font-style:italic;line-height:1.4;}
 
-/* GENERAL STYLES FROM INDEX */
-.pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;position:relative;border-left:4px solid transparent;}
+/* PROYECTOS VIEW */
+.area-section{margin-bottom:40px;}
+.area-header{font-size:18px;font-weight:600;color:var(--text);padding-bottom:10px;border-bottom:2px solid var(--green);margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:15px;}
+.pain-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;border-left:4px solid transparent;}
 .pain-card.comun{border-left-color:var(--green);}
 .pain-card.nuevo{border-left-color:var(--blue);}
 .pain-card.profun{border-left-color:var(--purple);}
-.pain-tag{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:8px;display:inline-block;}
+.pain-tag{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:10px;display:inline-block;}
 .pt-comun{background:var(--green-bg);color:var(--green);}
 .pt-nuevo{background:var(--blue-bg);color:var(--blue);}
 .pt-profun{background:var(--purple-bg);color:var(--purple);}
-.pain-title{font-weight:600;margin-bottom:4px;}
-.pain-desc{font-size:13px;color:var(--text2);}
-.pain-init{display:block;margin-top:8px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.pain-title{font-weight:600;margin-bottom:6px;font-size:14px;}
+.pain-desc{font-size:13px;color:var(--text2);margin-bottom:12px;}
+.pain-init{display:block;padding-top:10px;border-top:1px dashed var(--border);font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+.freq-badge{font-size:10px;font-family:'DM Mono',monospace;padding:3px 10px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);}
 
 </style>
 </head>
@@ -93,15 +99,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <header class="hero">
     <div class="hero-meta">TOUR IA <span>●</span> BOGOTÁ 2026</div>
     <h1>Consolidado de <em>Observaciones</em> en Obra</h1>
-    <p class="hero-sub">Análisis sistemático de ineficiencias y oportunidades de mejora detectadas en los proyectos visitados.</p>
+    <p class="hero-sub">Estructura de desglose por frecuencia y proyecto para la toma de decisiones estratégicas.</p>
     <div class="hero-stats">
       <div class="stat-card">
-        <div class="stat-num">5</div>
-        <div class="stat-label">Proyectos</div>
+        <div class="stat-num" id="stat-proy">5</div>
+        <div class="stat-label">Proyectos Visitados</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num" id="total-obs">0</div>
-        <div class="stat-label">Observaciones</div>
+        <div class="stat-num" id="stat-obs">0</div>
+        <div class="stat-label">Total Observaciones</div>
       </div>
     </div>
   </header>
@@ -112,8 +118,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </nav>
 
   <div id="frecuencia" class="panel active">
-    <table class="freq-table" id="freq-body">
-      </table>
+    <table class="freq-table">
+      <tbody id="freq-body">
+        </tbody>
+    </table>
   </div>
 
   <div id="proyectos" class="panel">
@@ -123,7 +131,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <script>
-// DATOS CONSOLIDADOS (De index.html)
+// BASE DE DATOS INTEGRADA
 const PROYECTOS = [
   { id:'rl', name:'Reserva del Lago', short:'RL', color:'var(--green)' },
   { id:'vi', name:'Vivant', short:'VI', color:'var(--blue)' },
@@ -137,29 +145,41 @@ const SESIONES = [
     proyecto: 'Reserva del Lago',
     tag: 'RL',
     dolores: [
-      { tag:'Planificación', tipo:'comun', title:'Incumplimiento del plan semanal', desc:'No se cumplen las metas establecidas por falta de recursos.', init:'Seguimiento diario' },
-      { tag:'Logística', tipo:'nuevo', title:'Acopio desordenado', desc:'Materiales obstaculizan el flujo de trabajo.', init:'5S en obra' }
-    ],
-    mejoras: []
+      { tag:'Planificación', tipo:'comun', title:'Incumplimiento del plan semanal', desc:'No se cumplen las metas por falta de mano de obra.', init:'Ajuste de cuadrillas' },
+      { tag:'Logística', tipo:'nuevo', title:'Acopio desordenado', desc:'Materiales obstruyen pasillos de circulación.', init:'Plan de 5S' }
+    ]
   },
   {
     proyecto: 'Vivant',
     tag: 'VI',
     dolores: [
-      { tag:'Planificación', tipo:'comun', title:'Falta de secuenciación', desc:'Actividades se cruzan sin orden lógico.', init:'LPS' },
-      { tag:'Calidad', tipo:'profun', title:'Reprocesos en muros', desc:'Plomos mal ejecutados requieren corrección.', init:'Checklist' }
-    ],
-    mejoras: []
+      { tag:'Planificación', tipo:'comun', title:'Incumplimiento del plan semanal', desc:'Retraso en la entrega de materiales críticos.', init:'Seguimiento a proveedores' },
+      { tag:'Calidad', tipo:'profun', title:'Reprocesos en muros', desc:'Plomos fuera de tolerancia en torre 1.', init:'Control de calidad preventivo' }
+    ]
   },
   {
     proyecto: 'Mazzaro',
     tag: 'MA',
     dolores: [
-      { tag:'Planificación', tipo:'comun', title:'Retraso en suministros', desc:'Proveedor no entrega a tiempo el concreto.', init:'Gestión compras' }
-    ],
-    mejoras: []
+      { tag:'Logística', tipo:'nuevo', title:'Acopio desordenado', desc:'Maderas acumuladas en zonas de seguridad.', init:'Zonificación de acopios' },
+      { tag:'Seguridad', tipo:'comun', title:'Falta de señalización', desc:'Escaleras provisionales sin aviso de riesgo.', init:'Kit de señalización estándar' }
+    ]
+  },
+  {
+    proyecto: 'Amalfi',
+    tag: 'AM',
+    dolores: [
+      { tag:'Planificación', tipo:'comun', title:'Incumplimiento del plan semanal', desc:'Descoordinación entre contratistas de redes.', init:'Reuniones de Last Planner' }
+    ]
+  },
+  {
+    proyecto: 'Constantino',
+    tag: 'CONS',
+    dolores: [
+      { tag:'Calidad', tipo:'profun', title:'Reprocesos en muros', desc:'Filtraciones detectadas tras prueba hidráulica.', init:'Protocolo de estanqueidad' },
+      { tag:'Logística', tipo:'nuevo', title:'Acopio desordenado', desc:'Tubería sin protección ante la intemperie.', init:'Bodegaje técnico' }
+    ]
   }
-  // Añadir aquí el resto de sesiones del index original...
 ];
 
 function init() {
@@ -179,6 +199,7 @@ function renderFrecuencia() {
   });
 
   const sorted = Object.entries(map).sort((a,b) => b[1].count - a[1].count);
+  
   const html = sorted.map(([title, data], i) => `
     <tr class="freq-row" onclick="toggleDetail(${i})">
       <td class="freq-rank">${String(i+1).padStart(2,'0')}</td>
@@ -187,15 +208,18 @@ function renderFrecuencia() {
         <div class="freq-sub">${data.tag}</div>
       </td>
       <td class="freq-dots">${renderDots(data.details)}</td>
-      <td><span class="freq-badge badge-${Math.min(data.count, 5)}">${data.count} Proyectos</span></td>
+      <td><span class="freq-badge">${data.count} Proyectos</span></td>
     </tr>
     <tr class="freq-detail" id="detail-${i}">
       <td colspan="4" class="detail-content">
         <div class="detail-grid">
           ${data.details.map(det => `
             <div class="detail-card">
-              <div class="detail-proj"><span class="dot dot-${det.tag.toLowerCase()}"></span> ${det.proj}</div>
-              <div class="detail-obs">${det.desc}</div>
+              <div class="detail-proj">
+                <span class="dot dot-${det.tag.toLowerCase()}"></span>
+                ${det.proj}
+              </div>
+              <div class="detail-obs">"${det.desc}"</div>
             </div>
           `).join('')}
         </div>
@@ -207,10 +231,10 @@ function renderFrecuencia() {
 }
 
 function renderDots(details) {
-  const activeTags = details.map(d => d.tag.toLowerCase());
+  const presentTags = details.map(d => d.tag.toLowerCase());
   return PROYECTOS.map(p => {
-    const isPresent = activeTags.includes(p.id);
-    return `<div class="dot ${isPresent ? 'dot-'+p.id : 'dot-empty'}"></div>`;
+    const active = presentTags.includes(p.id.toLowerCase());
+    return `<div class="dot ${active ? 'dot-'+p.id.toLowerCase() : 'dot-empty'}"></div>`;
   }).join('');
 }
 
@@ -218,14 +242,17 @@ function renderProyectos() {
   const container = document.getElementById('proyectos-container');
   container.innerHTML = SESIONES.map(s => `
     <div class="area-section">
-      <div class="area-header">${s.proyecto}</div>
-      <div class="init-grid">
+      <div class="area-header">
+        ${s.proyecto}
+        <span style="font-size:12px; opacity:0.6">${s.dolores.length} obs.</span>
+      </div>
+      <div class="pain-grid">
         ${s.dolores.map(d => `
           <div class="pain-card ${d.tipo}">
             <span class="pain-tag pt-${d.tipo}">${d.tag}</span>
             <div class="pain-title">${d.title}</div>
             <div class="pain-desc">${d.desc}</div>
-            <span class="pain-init">→ Propuesta: ${d.init}</span>
+            <span class="pain-init">PROPUESTA: ${d.init}</span>
           </div>
         `).join('')}
       </div>
@@ -246,13 +273,12 @@ function showPanel(id) {
 }
 
 function updateStats() {
-  let total = 0;
-  SESIONES.forEach(s => total += s.dolores.length);
-  document.getElementById('total-obs').innerText = total;
+  let count = 0;
+  SESIONES.forEach(s => count += s.dolores.length);
+  document.getElementById('stat-obs').innerText = count;
 }
 
 window.onload = init;
 </script>
-
 </body>
 </html>
