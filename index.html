@@ -335,10 +335,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   0%{outline-color:var(--green);box-shadow:0 0 0 4px rgba(13,127,95,0.25);}
   100%{outline-color:transparent;box-shadow:none;}
 }
+
+.fdet-id-title{
+  font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;
+  font-style:italic;margin-left:4px;vertical-align:middle;
+}
+.fdet-ids{display:block;padding:4px 0;margin-bottom:4px;}
 /* ── IDs en detail de frecuencia ── */
 .fdet-ids{display:block;font-size:9px;font-family:'DM Mono',monospace;color:var(--text3);background:rgba(0,0,0,0.05);padding:2px 6px;border-radius:3px;margin-bottom:6px;letter-spacing:.06em;}
 /* ── ID DE DOLOR EN POR SESIÓN ── */
-.pain-id{display:inline-block;font-size:9px;font-family:'DM Mono',monospace;font-weight:600;letter-spacing:.08em;padding:1px 6px;border-radius:3px;background:rgba(0,0,0,0.06);color:var(--text3);margin-bottom:4px;vertical-align:middle;}
+.pain-id{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;font-weight:600;letter-spacing:.05em;padding:3px 10px;border-radius:4px;background:rgba(13,127,95,0.1);color:#0d7f5f;border:1px solid rgba(13,127,95,0.25);margin:6px 0 4px;cursor:pointer;transition:all .12s;}
+.pain-id:hover{background:rgba(13,127,95,0.2)!important;border-color:rgba(13,127,95,0.5)!important;}
 
 /* ── LOGO ── */
 .hero-logo{
@@ -1158,13 +1165,209 @@ function navigateToId(itemId) {
 }
 
 
+const idTitleMap = {
+  'am-001':'Preactas digitales y sus soportes — estándar de memorias y firma digital',
+  'am-002':'Horas extras: formato muy manual, sin conexión con Portero ni bloqueo por condición médica',
+  'am-003':'Pedidos de obra: proyección en Excel, unificación de códigos de insumo pendiente',
+  'am-004':'Relación de pagos: envío manual en Excel a tesorería — cuarta confirmación sistémica',
+  'am-005':'Radicación de facturas: correos dispersos — OC no llega automáticamente al proveedor',
+  'am-006':'PAC: módulo de calidad de SINCO sin explotar — sin visibilidad de carga del contratista',
+  'am-007':'Vencimiento de contratos: se enteran al generar el corte — aprobador disponible solo viernes',
+  'am-008':'Servicios públicos: alertas y débito sin automatizar — costo indirecto sin cargar',
+  'am-009':'Informes de laboratorio: sin conexión ni comparación automática con normativa técnica',
+  'am-010':'Minutas SINCO: datos repetitivos siempre corregidos — pipeline por montos + revisión paralela',
+  'am-011':'Control interno devuelve minutas por errores pequeños — solo revisa los lunes',
+  'am-012':'Pólizas: cada contratista hace la suya — obra debe unificar y actualizar en SINCO',
+  'am-013':'Órdenes de compra abiertas sin uso: generan errores en entradas de almacén',
+  'am-014':'Estandarización de insumos: ítems inactivos sin depurar, cuentas contables incorrectas',
+  'am-015':'Flujo de directores SINCO–Control: proyección mensual en Excel enviada manualmente',
+  'am-016':'Actas de calidad BIM y libro de obra: sin firma digital ni registro desde campo',
+  'am-017':'Informes mensuales: sin prompt ni plantilla estándar para automatizar con IA',
+  'am-018':'Control de FIC y seguridad social: verificación manual de legalidad y cruce de pagos',
+  'am-019':'Cambios de precio: lista no ligada al insumo — incremento sin automatizar',
+  'am-020':'Contratos en cero: sin cierre automático ni alerta de auditoría previa',
+  'am-021':'Control de equipos: sin inventario — informe no genera preacta automáticamente',
+  'am-022':'Tablet residentes: revisión de actividades y formatos sin digitalizar en campo',
+  'am-m001':'Preacta digital estandarizada en SINCO — actas con firma digital a futuro',
+  'am-m002':'Conectar Portero a nómina — validación D-1, aprobación D-0, cierre día 30 + bloqueo médico',
+  'am-m003':'Pedidos 100% en SINCO — proyección de excesos + unificación de códigos de insumo',
+  'am-m004':'Relación de pagos automática desde SINCO — eliminación definitiva del Excel a tesorería',
+  'am-m005':'Correo centralizado — OC aprobada llega automáticamente al proveedor',
+  'am-m006':'Activar módulo de calidad SINCO para PAC — carga real del contratista visible',
+  'am-m007':'Alertas de vencimiento a 1 mes, 15 y 8 días — anticipar agenda del aprobador',
+  'am-m008':'Débito automático servicios públicos — notificación a obra para costo indirecto',
+  'am-m009':'Informes laboratorio conectados — alertas + comparación automática con norma técnica',
+  'am-m010':'Minutas parametrizadas por monto — revisión paralela con control interno',
+  'am-m011':'Maestría de insumos depurada — bloqueo automático + responsable asignado',
+  'am-m012':'Flujo directores automático desde SINCO — eliminar Excel mensual',
+  'am-m013':'Libro de obra digital con firma digital, foto y dictado desde campo',
+  'am-m014':'Prompt y plantilla estándar para informes mensuales con IA',
+  'am-m015':'Validación automática FIC y seguridad social — cruce contrato con pago',
+  'am-m016':'Lista de precios ligada al insumo — incremento automático con aprobación condicionada',
+  'am-m017':'Cierre automático de contratos en cero con alerta de auditoría previa',
+  'am-m018':'Informe de equipos genera preacta automáticamente — inventario en tiempo real',
+  'am-m019':'Tablet residentes: foto + dictado + checklist de calidad desde campo',
+  'am-m020':'Conectar nuevo formato Portero con nómina — validación día anterior, aprobación día siguiente',
+  'am-m021':'Pedidos directo en SINCO con proyección automática de excedentes',
+  'am-m022':'Relación de pagos generada desde SINCO — contabilidad valida en sistema',
+  'am-m023':'Correo único — OC llega directamente al proveedor desde SINCO',
+  'am-m024':'Explotar módulo de calidad SINCO para PAC — ver carga de contratos del contratista',
+  'am-m025':'Alerta de vencimiento de contratos entre 3 semanas y 1 mes antes',
+  'am-m026':'Bot conecta informes de laboratorio — alerta y comparación automática con norma',
+  'am-m027':'Débito automático de servicios públicos — alerta a obra para costo indirecto',
+  'am-m028':'Parametrización estándar de minutas por monto — pipeline automático',
+  'am-m029':'Bloqueo automático de insumos inactivos — responsable de depuración asignado',
+  'am-m030':'Flujo de directores integrado en SINCO — presupuestado + proyectado en el sistema',
+  'am-m031':'Libro de obra digital con firma digital — dictado desde tablet en campo',
+  'am-m032':'Plantilla + prompt estándar para informes mensuales automatizados',
+  'am-m033':'Lista de precios ligada al insumo — corte automático al día 30 con aprobación',
+  'am-m034':'Portal FIC: validación legal del pago relacionado con número de contrato',
+  'am-m035':'Formatos de cortes estandarizados entre todos los proyectos',
+  'cons-001':'Minutas: matriz de contratista asociada a tipología de contratos y reducción de reteICA',
+  'cons-002':'Contratos desde SINCO: plantilla diligenciada automáticamente — sin llenado manual',
+  'cons-003':'Pólizas: revisión y confrontación contra el contrato — alimentar SINCO tras validación',
+  'cons-004':'Pedidos en SINCO sin Excel: trazabilidad completa desde control',
+  'cons-m001':'Parametrizar reteICA por actividad económica — reducir de 120 a los que aplican',
+  'cons-m002':'Minuta pre-diligenciada desde SINCO con datos del sistema — firma digital por perfiles',
+  'cons-m003':'Validación automática de póliza vs. contrato — actualización en SINCO y alertas de vencimiento',
+  'cons-m004':'Pedido directo en SINCO con trazabilidad abierta desde control — sin Excels',
+  'ma-001':'Preactas digitales y sus soportes — estándar de memorias y firma digital',
+  'ma-002':'Horas extras: 3 planillas — Portero, Bitácora y Temporal sin articular',
+  'ma-003':'Pedidos en Excel antes de SINCO: doble digitación sin valor agregado',
+  'ma-004':'Relación de pagos depende de Excel del residente y correo manual',
+  'ma-005':'Creación de contratistas puede demorar hasta un mes — duplicación entre sociedades',
+  'ma-006':'Facturas se pierden — 20+ diarias radicadas manualmente por proyecto',
+  'ma-007':'Cuadro comparativo se llena de nuevo cada vez — sin libro estándar de presupuesto',
+  'ma-008':'Salidas de almacén: prueba piloto parada — maestros sin visibilidad de inventario',
+  'ma-009':'PAC desligado de programación — residentes llenan a mano semana a semana',
+  'ma-010':'Tipo de contrato lo decide obra — error se detecta al llegar la factura',
+  'ma-011':'Alquiler de equipo sin hojas de vida, mantenimiento ni control de tiempos en desuso',
+  'ma-012':'Bot de concretos: cada obra usa su cuadro — sin estándar ni promedio móvil',
+  'ma-013':'Entradas de almacén sin estándar — almacenista puede entrar sin remisión',
+  'ma-014':'Minuta de contratos SINCO: ítems desordenados, apoderado cambia en cada campo',
+  'ma-015':'Tableros BIM–Power BI para volumetría de concretos y seguimiento de ventanería',
+  'ma-016':'SSTA: permisos de inicio de semana con múltiples firmas durante 2.5 horas',
+  'ma-017':'Incidencias en plano u obra no llegan directamente a diseño — rechazos sin notificación',
+  'ma-018':'Contratos menores con exceso de aprobaciones para montos bajos',
+  'ma-019':'Comités de obra: actas sin síntesis automática de trazabilidad',
+  'ma-020':'Portal de proveedor y portal FIC sin repositorio centralizado',
+  'ma-021':'Informes a entidades públicas (urbanismo, IDU, IDRD, acueducto) manuales',
+  'ma-022':'Plan de calidad: formatos dispersos, sin repositorio de inducción ni estándar ATS',
+  'ma-023':'Órdenes de compra de acero con alertas de antigüedad no configuradas',
+  'ma-024':'Firma electrónica de contratos: proceso complejo con pérdida de certificados',
+  'ma-025':'Reporte a control interno de contratos cerrados no automatizado',
+  'ma-026':'Póliza global eliminada — todos los contratistas con póliza individual en SINCO',
+  'ma-027':'Alquiler de equipo: control de mantenimientos por rotación',
+  'ma-028':'Alquiler de equipo: diferenciación entre terceros y propios — ejemplo T500',
+  'ma-029':'Creación de contratistas: evaluación nueva por sociedad — espera de casi una semana',
+  'ma-030':'Kardex UNISPAN y libro de pedidos: automatización pendiente — valores cambian semanalmente',
+  'ma-031':'Base de presupuesto: informar al Ing. Forero para reunión de control los martes',
+  'ma-032':'SGD – Aprobación del subgerente en entrada: redundante tras hechos cumplidos',
+  'ma-033':'Salidas sin vales: aprobación de control no devuelve a tiempo al almacenista',
+  'ma-034':'Base de presupuesto SINCO: no se puede hacer en este momento para varios ítems e insumos',
+  'ma-035':'Salidas: modelo Bolívar con código de barras por contratista — no se puede eliminar la valera',
+  'ma-036':'Horas extras: tecnología disponible pero no estandarizada — resocializar bondades del sistema',
+  'ma-037':'PAC: relacionamiento con control como apoyo para el porcentaje real ejecutado',
+  'ma-038':'SGD: hoja para entradas, anticipos y otros — flujo sin integrar',
+  'ma-039':'Portal de proveedor: relacionado con módulo SRM de SINCO — Ing. Martha',
+  'ma-040':'SSTA: reporte diario de ingresos completamente manual',
+  'ma-041':'Salidas: el tema de los vales se va a retomar en una semana',
+  'ma-042':'SRM: preactas desde SINCO con aprobación de interventoría — se convierte en acta con descuentos',
+  'ma-043':'Flujo de directores SINCO–Control: proyección mensual en Excel manual',
+  'ma-m001':'Preacta digital estandarizada en SINCO — actas con firma digital a futuro',
+  'ma-m002':'Portero articulado con Bitácora y Temporal — aprobación en sistema',
+  'ma-m003':'Pedidos directo a SINCO desde el residente — auditorías solo en SINCO',
+  'ma-m004':'Programación en SINCO sustituye relación de pagos — causación y pago separados',
+  'ma-m005':'Módulo SRM en 15 días — portal de ingreso para nuevos contratistas desde web',
+  'ma-m006':'Bot lee factura, asigna administrativo, rechaza si falta OC o contrato',
+  'ma-m007':'Libro estándar de presupuesto — control solo entra al inicio para revisar cantidades',
+  'ma-m008':'Presalida digital con QR o código de barras — inventario visible para maestros',
+  'ma-m009':'PAC conectado con BIM, costos y programación — QR para asistencia en SINCO',
+  'ma-m010':'Actividad económica del RUT determina tipos de contrato disponibles automáticamente',
+  'ma-m011':'Módulo de equipos en Portero articulado — centralizar seguimiento de alquileres',
+  'ma-m012':'Bot extrae parámetros del formato de informe — cuadro estandarizado entre todas las obras',
+  'ma-m013':'Remisión digital obligatoria para hacer entrada — alerta a fin de mes de entradas pendientes',
+  'ma-m014':'Minuta estandarizada con apoderado fijo — firma ZOHO con control de perfiles',
+  'ma-m015':'Tableros Power BI conectados a BIM — concretos, acero y ventanería integrados con SINCO',
+  'ma-m016':'Digitalización de permisos SSTA con firma digital — seguridad social en portero',
+  'ma-m017':'IA sintetiza actas de comité con trazabilidad antes/ahora',
+  'ma-m018':'Portal proveedor + FIC: contratista sube, sistema consolida, personal revisa',
+  'ma-m019':'Generación automática de informes adaptados a cada entidad pública',
+  'ma-m020':'Repositorio único de calidad — formatos, ATS, inducción y gestión del conocimiento',
+  'rl-001':'Preactas digitales y sus soportes — estándar de memorias y firma digital',
+  'rl-002':'Horas extras: dos fuentes sin integración (ARHI y Portero)',
+  'rl-003':'Sistema bloqueando insumos en estado de presalida',
+  'rl-004':'Pedidos ya presupuestados requieren aprobación adicional',
+  'rl-005':'PAC y calificación de contratistas en actas manuales',
+  'rl-006':'Cobro de alquiler de equipo llega tarde — sin inventario en tiempo real',
+  'rl-007':'Aprobación de relaciones de pago requiere descargas manuales',
+  'rl-008':'Facturas sin tramitar ante la DIAN pendientes de aprobación',
+  'rl-009':'Base de presupuesto en SINCO no se actualiza automáticamente',
+  'rl-010':'Alertas de resistencia de concretos se gestionan manualmente',
+  'rl-011':'IA para anticipar solicitudes de pedidos y despachos ligada a la programación',
+  'rl-012':'Portal proveedor + FIC: contratista sube, sistema consolida, personal revisa',
+  'rl-013':'Creación de contratistas automáticamente — base de datos entre sociedades',
+  'rl-014':'Base de presupuesto para SINCO: actualización automática del cuadro comparativo',
+  'rl-015':'Flujo de directores SINCO–Control: proyección mensual en Excel manual',
+  'rl-016':'Matriz de contratistas: tipo de contrato por actividad económica — migrar a ZOHO',
+  'rl-m001':'Preacta digital estandarizada en SINCO — actas con firma digital a futuro',
+  'rl-m002':'Automatizar notificación de horas extras y reporte mensual',
+  'rl-m003':'Rediseñar flujo de presalidas — corregir bloqueos del sistema',
+  'rl-m004':'Pedidos directos desde presupuesto proyectado sin aprobación adicional',
+  'rl-m005':'Calificación de contratistas desde SINCO, amarrada a programación',
+  'rl-m006':'Conteo automático mensual de equipo en alquiler por proveedor',
+  'rl-m007':'Bot vincula facturas con entradas de almacén — flujo SGD sin descargas',
+  'rl-m008':'Matriz automática de tipo de contrato según actividad económica',
+  'rl-m009':'IA para anticipar pedidos y despachos ligada a la programación',
+  'rl-m010':'Matriz automática de contratistas ligada a actividad económica — SINCO o ZOHO',
+  'vi-001':'Preactas digitales y sus soportes — estándar de memorias y firma digital',
+  'vi-002':'PAC desconectado del sistema — sin incentivos ni Power BI',
+  'vi-003':'Horas extras sin registro de causa ni cuadro semanal',
+  'vi-004':'Base de contratistas descentralizada — problemas entre sociedades',
+  'vi-005':'Recepción de facturas dispersa: cada obra tiene correo diferente',
+  'vi-006':'Salidas de almacén: demasiados pasos de aprobación',
+  'vi-007':'Pedidos frenan el proceso: control interviene en el momento equivocado',
+  'vi-008':'Cuadro comparativo requiere descarga manual del sistema 5',
+  'vi-009':'Tipo de contrato lo define obra; el error llega con la factura',
+  'vi-010':'Alquiler de equipo sin control de inventario ni proyección anticipada',
+  'vi-011':'Bot de concretos: 2 horas diarias de registro manual — plataformas SGS, Concrelab, PSI',
+  'vi-012':'Relación de pagos genera descarga y Excel por centro de costos',
+  'vi-013':'Entradas de almacén: remisión llega con ID diferente a la orden de compra',
+  'vi-014':'Vencimiento de pólizas y contratos sin alertas — sin estado de gestión',
+  'vi-015':'Amortización y anticipo sin alerta de vencimiento en cortes',
+  'vi-016':'Control de asentamientos: datos de topógrafos sin graficar automáticamente',
+  'vi-017':'Incidencias de calidad no se pueden registrar desde el celular en campo',
+  'vi-018':'Servicios públicos sin centralización ni alertas de vencimiento',
+  'vi-019':'Reprocesos de ejecución doble no detectados con modelo BIM',
+  'vi-020':'SGD – Aprobación del subgerente en entrada: redundante tras hechos cumplidos',
+  'vi-021':'Horas extras sin registro de causa ni cuadro semanal',
+  'vi-022':'Pedidos de obra: la obra sube directamente y control aprueba — sin restricción de tiempo',
+  'vi-023':'Portal proveedor + FIC: contratista sube, sistema consolida, personal revisa',
+  'vi-024':'Flujo de directores SINCO–Control: proyección mensual en Excel manual',
+  'vi-m001':'Preacta digital estandarizada en SINCO — actas con firma digital a futuro',
+  'vi-m002':'PAC en sistema 5 con módulo de incidencias en Power BI',
+  'vi-m003':'Digitalizar causa de hora extra diariamente — alerta semanal automática',
+  'vi-m004':'Activar módulo SRM para todas las sociedades — CRM centralizado',
+  'vi-m005':'Un solo correo con bot de distribución por proyecto según sociedad',
+  'vi-m006':'Eliminar vale físico: recibido digital del contratista en sistema 5',
+  'vi-m007':'Pedidos automáticos desde presupuesto — alerta solo si se supera el tope',
+  'vi-m008':'Módulo SEM absorbe cuadro comparativo automáticamente desde sistema 5',
+  'vi-m009':'Sistema parametriza actividad económica — obra solo define MO o material',
+  'vi-m010':'Control de inventario de alquiler ligado a contrato y actividad',
+  'vi-m011':'Bot extrae muestras de SGS, Concrelab y PSI — promedio móvil automático',
+  'vi-m012':'Causación y pagos en un solo lugar — tesorería paga por programación semanal',
+  'vi-m013':'Trazabilidad completa: OC + remisión + entrada + factura con IDs unificados',
+  'vi-m014':'Alertas automáticas de vencimiento de pólizas, contratos y anticipos'
+};
+
 function makeIdLinks(idsStr, color) {
   if (!idsStr) return '';
   return idsStr.split(', ').map(function(id) {
     id = id.trim();
     if (!id) return '';
-    return '<span class="fdet-id-link" onclick="navigateToId(\''+id+'\')">'+id+'</span>';
-  }).join(' ');
+    var title = idTitleMap[id] ? ' <span class="fdet-id-title">' + idTitleMap[id] + '</span>' : '';
+    return '<span class="fdet-id-link" onclick="navigateToId(\''+id+'\')">'+id+'</span>' + title;
+  }).join('<br>');
 }
 
 function renderFreq(){
@@ -1466,8 +1669,8 @@ function renderSesiones(){
           const tcls = d.tipo==='comun'?'pt-comun':d.tipo==='nuevo'?'pt-nuevo':d.tipo==='profun'?'pt-profun':'pt-comun';
           return `<div class="pain-card ${cls}" ${d.id ? `id="psid-${d.id}"` : ''} >
             <span class="pain-tag ${tcls}">${d.tag}</span>
-            ${d.id ? `<span class="pain-id" onclick="navigateToFreq('${d.id}')" title="Ver en Por frecuencia">${d.id} ↗</span>` : ''}
             <div class="pain-title">${d.title}</div>
+            ${d.id ? `<span class="pain-id" onclick="navigateToFreq('${d.id}')" title="Ver en Por frecuencia">📊 Ver en Por frecuencia → ${d.id}</span>` : ''}
             <div class="pain-desc">${d.desc}</div>
             <span class="pain-init">→ ${d.init}</span>
           </div>`;
@@ -1478,8 +1681,8 @@ function renderSesiones(){
         ${s.mejoras.map(m=>`
           <div class="pain-card mejora" ${m.id ? `id="psid-${m.id}"` : ''}>
             <span class="pain-tag pt-mejora">${m.tag}</span>
-            ${m.id ? `<span class="pain-id" onclick="navigateToFreq('${m.id}')" title="Ver en Por frecuencia">${m.id} ↗</span>` : ''}
             <div class="pain-title">${m.title}</div>
+            ${m.id ? `<span class="pain-id" onclick="navigateToFreq('${m.id}')" title="Ver en Por frecuencia">📊 Ver en Por frecuencia → ${m.id}</span>` : ''}
             <div class="pain-desc">${m.desc}</div>
             <span class="pain-init">→ ${m.init}</span>
           </div>`).join('')}
