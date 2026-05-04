@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)file:///C:/Users/cpulgarin/Downloads/index_1.html -->
+<!-- saved from url=(0049)file:///C:/Users/cpulgarin/Downloads/index_5.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="./index_files/css2" rel="stylesheet">
+<script src="./index_files/firebase-app-compat.js.descarga"></script>
+<script src="./index_files/firebase-firestore-compat.js.descarga"></script>
 <style>
 :root {
   --bg:#f8f9fb; --bg2:#ffffff; --bg3:#f1f3f7; --bg4:#e4e7ef;
@@ -79,15 +81,33 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .badge-3{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
 .badge-2{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);}
 .badge-1{background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+
+/* ── BOTÓN OBSERVACIÓN ── */
+.obs-btn{padding:5px 10px;font-size:11px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s;font-weight:500;}
+.obs-btn:hover{background:#1349a8;}
+
+/* ── MODAL OBSERVACIÓN ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-content{background:var(--bg2);border-radius:var(--radius);padding:28px;max-width:500px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.15);}
+.modal-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;}
+.modal-subtitle{font-size:12px;color:var(--text2);margin-bottom:20px;}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px;}
+.form-input,.form-textarea{width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);}
+.form-input:focus,.form-textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-bg);}
+.form-textarea{resize:vertical;min-height:80px;}
+.slider-container{display:flex;align-items:center;gap:12px;}
+.range-slider{flex:1;}
+.range-value{font-size:14px;font-weight:600;color:var(--green);min-width:40px;text-align:center;}
+.modal-buttons{display:flex;gap:10px;margin-top:20px;}
+.btn-save,.btn-cancel{flex:1;padding:10px;border:none;border-radius:var(--radius-sm);font-weight:500;cursor:pointer;transition:all .15s;}
+.btn-save{background:var(--green);color:white;}
+.btn-save:hover{background:#0a6850;}
+.btn-cancel{background:var(--border);color:var(--text2);}
+.btn-cancel:hover{background:var(--border2);color:var(--text);}
 .legend-row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);}
-
-/* ── OBSERVACIONES ── */
-.obs-section{margin-top:40px;padding-top:28px;border-top:1px solid var(--border);}
-.obs-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;}
-.obs-textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg2);resize:vertical;min-height:120px;transition:border-color .15s;}
-.obs-textarea:focus{outline:none;border-color:var(--green);background:var(--bg2);}
-.obs-feedback{font-size:11px;color:var(--text3);margin-top:6px;font-style:italic;}
 
 /* ── AREAS ── */
 .area-section{margin-bottom:24px;}
@@ -452,6 +472,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-5">5 sesiones</span>
         <span class="badge-cons">Consulta Peregrino</span>
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(2, &#39;Pedidos en Excel antes de SINCO — doble digitación sin valor&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-2" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-2">
@@ -581,6 +604,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-4">4 sesiones</span>
         <span class="badge-cons">Consulta Peregrino</span>
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(13, &#39;Matriz de contratistas — tipo de contrato por actividad económica&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-13" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-13">
@@ -690,6 +716,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-3">3 sesiones</span>
         <span class="badge-cons">Consulta Peregrino</span>
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(16, &#39;Vencimiento de contratos y pólizas sin alertas anticipadas&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-16" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-16">
@@ -778,6 +807,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-3">3 sesiones</span>
         <span class="badge-cons">Consulta Peregrino</span>
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(18, &#39;Minutas SINCO: datos repetitivos, pipeline sin parametrizar por monto&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-18" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -877,6 +909,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-4">4 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(1, &#39;Horas extras sin integración ni registro de causa&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-1" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -987,6 +1022,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-4">4 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(3, &#39;BOT facturas: 20+ diarias radicadas manualmente&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-3" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-3">
@@ -1095,6 +1133,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-4">4 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(6, &#39;Bot de concretos / Informes de laboratorio: registro manual diario&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-6" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -1205,6 +1246,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-4">4 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(7, &#39;SGD – Flujo relación de pago: Excel manual por residente&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-7" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-7">
@@ -1313,6 +1357,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-4">4 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(8, &#39;Preactas digitales y soportes — estándar de memorias y firma digital&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-8" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -1423,6 +1470,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-4">4 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(10, &#39;PAC desligado de programación · llenado manual semana a semana&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-10" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-10">
@@ -1532,6 +1582,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-4">4 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(22, &#39;Portal de proveedor y portal FIC sin repositorio centralizado&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-22" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-22">
@@ -1640,6 +1693,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-4">4 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(24, &#39;Flujo de directores SINCO–Control: proyección mensual en Excel manual&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-24" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -1760,6 +1816,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-3">3 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(4, &#39;Base de presupuesto SINCO se recarga manualmente cada vez&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-4" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-4">
@@ -1848,6 +1907,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-3">3 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(5, &#39;Alquiler de equipo sin inventario, hojas de vida ni mantenimiento&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-5" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -1938,6 +2000,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-3">3 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(11, &#39;Salidas de almacén: flujo excesivo · prueba piloto parada&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-11" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-11">
@@ -2027,6 +2092,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-3">3 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(12, &#39;Creación de contratistas: hasta un mes, duplicada entre sociedades&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-12" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-12">
@@ -2115,6 +2183,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-3">3 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(14, &#39;Relación de pagos enviada por Excel a tesorería&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-14" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2215,6 +2286,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-2">2 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(17, &#39;Entradas de almacén: remisión con ID diferente a la OC&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-17" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-17">
@@ -2283,6 +2357,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-2">2 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(19, &#39;Pólizas: cada contratista hace la suya — obra unifica y verifica manualmente&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-19" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2353,6 +2430,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-2">2 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(21, &#39;Servicios públicos sin centralización ni débito automático&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-21" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-21">
@@ -2422,6 +2502,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-2">2 sesiones</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(29, &#39;Contratos en cero: sin cierre automático ni alerta previa de auditoría&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-29" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-29">
@@ -2490,6 +2573,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-2">2 sesiones</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(39, &#39;SGD – Aprobación de subgerente en entrada: redundante tras hechos cumplidos&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-39" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2570,6 +2656,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(9, &#39;Control de equipos: sin inventario — informe no genera preacta&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-9" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-9">
@@ -2618,6 +2707,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(15, &#39;FIC y seguridad social: verificación manual de legalidad y pagos&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-15" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2668,6 +2760,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(20, &#39;Órdenes de compra sin alertas de antigüedad ni cierre automático&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-20" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-20">
@@ -2716,6 +2811,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(23, &#39;Plan de calidad: formatos dispersos, sin repositorio ni estándar ATS&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-23" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2766,6 +2864,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(25, &#39;Actas de calidad BIM y libro de obra: sin firma digital&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-25" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-25">
@@ -2814,6 +2915,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(26, &#39;Informes mensuales: sin estándar de prompt ni plantilla automatizada&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-26" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2864,6 +2968,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(27, &#39;Estandarización de insumos: inactivos sin depurar, cuentas contables incorrectas&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-27" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-27">
@@ -2912,6 +3019,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(28, &#39;Cambios de precio: lista no ligada al insumo en SINCO&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-28" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -2962,6 +3072,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(30, &#39;Tablet para residentes: actividades y formatos sin digitalizar en campo&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-30" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-30">
@@ -3010,6 +3123,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(31, &#39;Comités de obra: actas sin síntesis automática de trazabilidad&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-31" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3060,6 +3176,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(32, &#39;Firma electrónica de contratos: pérdida de certificado en cada cambio&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-32" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-32">
@@ -3108,6 +3227,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(33, &#39;Tableros BIM–Power BI para volumetría de concretos y ventanería&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-33" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3178,6 +3300,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(34, &#39;SSTA: permisos de inicio de semana toman 2.5 horas manuales&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-34" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-34">
@@ -3226,6 +3351,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(35, &#39;Control de asentamientos: datos de topógrafos no graficados automáticamente&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-35" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3276,6 +3404,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(36, &#39;Informes a entidades públicas manuales: acueducto, IDU, IDRD, urbanismo&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-36" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-36">
@@ -3324,6 +3455,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(37, &#39;Soportes de cortes: formatos sin estandarizar entre proyectos&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-37" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3374,6 +3508,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(38, &#39;Solicitudes de contratos: insumos distintos por sucursal sin estandarizar&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-38" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-38">
@@ -3422,6 +3559,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(45, &#39;Calidad: incidencias sin registro desde celular en campo&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-45" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3472,6 +3612,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(46, &#39;Control de cortes BIM: reprocesos de ejecución doble no detectados&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-46" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-46">
@@ -3520,6 +3663,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td>
         <span class="freq-badge badge-1">1 sesión</span>
         
+      </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(47, &#39;IA para anticipar pedidos y despachos ligada a la programación&#39;)">💭 Obs.</button>
       </td>
     </tr><tr id="fdetrow-47" class="freq-det-row">
         <td colspan="5" style="padding:0">
@@ -3570,6 +3716,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(48, &#39;Control de cortes: amortización y anticipo sin alerta de vencimiento&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-48" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-48">
@@ -3619,6 +3768,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="freq-badge badge-1">1 sesión</span>
         
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(49, &#39;Control de contratos y cortes: vencimiento, amortización y estado de gestión&#39;)">💭 Obs.</button>
+      </td>
     </tr><tr id="fdetrow-49" class="freq-det-row">
         <td colspan="5" style="padding:0">
           <div class="freq-det-box" id="fdetbox-49">
@@ -3651,11 +3803,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
           </div>
         </td>
       </tr></tbody></table>
-  <div class="obs-section">
-    <div class="obs-title">💭 Observaciones y notas</div>
-    <textarea id="obsTextarea" class="obs-textarea" placeholder="Agregar observaciones, patrones o conexiones encontradas entre los proyectos..."></textarea>
-    <div class="obs-feedback">Los cambios se guardan automáticamente en tu navegador</div>
-  </div>
 </div>
 
 <!-- PANEL AREAS -->
@@ -5723,6 +5870,32 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
+<!-- MODAL OBSERVACIÓN -->
+<div id="obsModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-title">Observación del proyecto</div>
+    <div class="modal-subtitle" id="modalSubtitle"></div>
+    
+    <div class="form-group">
+      <label class="form-label">Nivel de avance (%)</label>
+      <div class="slider-container">
+        <input type="range" id="avanceSlider" class="range-slider" min="0" max="100" value="0">
+        <span class="range-value" id="avanceValue">0%</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Notas adicionales</label>
+      <textarea id="notasTextarea" class="form-textarea" placeholder="Agregar observaciones, comentarios o hallazgos..."></textarea>
+    </div>
+    
+    <div class="modal-buttons">
+      <button class="btn-save" onclick="guardarObservacion()">Guardar</button>
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
   <div class="footer-text">Tour IA · Ingeurbe · Observaciones 21 abr – Mayo 2025</div>
   <div class="footer-text">Reserva del Lago · Viale · Madero · Flora · Albura · Corteza · Terra · Nativa · Piazza</div>
@@ -6751,6 +6924,9 @@ function renderFreq(){
         <span class="freq-badge ${b}">${l}</span>
         ${d.cons?'<span class="badge-cons">Consulta Peregrino</span>':''}
       </td>
+      <td style="text-align:right;padding-right:12px;">
+        <button class="obs-btn" onclick="abrirModalObservacion(${d.rank}, '${d.name.replace(/'/g,"\\'")}')">💭 Obs.</button>
+      </td>
     </tr>`;
 
     // Fila de detalle expandible
@@ -6973,24 +7149,133 @@ function renderSesiones(){
     </div>`).join('');
 }
 
+// ══════════════════════════════════════════
+// ── FIREBASE CONFIGURATION ──
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyBAinJFY0GUTJU0yGSddi8KsfrwoVd6hU0",
+  authDomain: "ingeurbe-tour-ia.firebaseapp.com",
+  projectId: "ingeurbe-tour-ia",
+  storageBucket: "ingeurbe-tour-ia.firebasestorage.app",
+  messagingSenderId: "867159594069",
+  appId: "1:867159594069:web:467c03957e66c3ceaab0dc"
+};
+
+// Inicializar Firebase cuando esté listo
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ── FUNCIONES FIRESTORE ──
+async function guardarObservacionFirestore(rank, avance, notas, nombre){
+  try {
+    await db.collection("observaciones").doc("rank-"+rank).set({
+      rank: rank,
+      nombre: nombre,
+      avance: avance,
+      notas: notas,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    return true;
+  } catch (error) {
+    console.error("Error guardando en Firestore:", error);
+    return false;
+  }
+}
+
+async function cargarObservacionFirestore(rank){
+  try {
+    const doc = await db.collection("observaciones").doc("rank-"+rank).get();
+    if(doc.exists){
+      return doc.data();
+    }
+    return null;
+  } catch (error) {
+    console.error("Error cargando de Firestore:", error);
+    return null;
+  }
+}
+
 renderFreq();
 renderAreas();
 renderIniciativas();
 renderPatrones();
 renderSesiones();
 
-// ── PERSISTENCIA DE OBSERVACIONES ──
-const obsTA = document.getElementById('obsTextarea');
-if(obsTA){
-  // Cargar datos guardados
-  const saved = localStorage.getItem('obs-consolidado');
-  if(saved) obsTA.value = saved;
+// ── FUNCIONES MODAL OBSERVACIÓN ──
+let currentRank = null;
+let currentNombre = null;
+
+async function abrirModalObservacion(rank, nombre){
+  currentRank = rank;
+  currentNombre = nombre;
+  document.getElementById('modalSubtitle').textContent = nombre;
   
-  // Guardar en tiempo real
-  obsTA.addEventListener('input',()=>{
-    localStorage.setItem('obs-consolidado',obsTA.value);
-  });
+  // Intentar cargar de Firestore primero
+  const dataFirestore = await cargarObservacionFirestore(rank);
+  
+  if(dataFirestore){
+    document.getElementById('avanceSlider').value = dataFirestore.avance || 0;
+    document.getElementById('avanceValue').textContent = (dataFirestore.avance || 0) + '%';
+    document.getElementById('notasTextarea').value = dataFirestore.notas || '';
+  } else {
+    // Si no está en Firestore, intentar cargar de localStorage (respaldo)
+    const key = 'obs-'+rank;
+    const saved = JSON.parse(localStorage.getItem(key) || '{"avance":0,"notas":""}');
+    
+    document.getElementById('avanceSlider').value = saved.avance || 0;
+    document.getElementById('avanceValue').textContent = (saved.avance || 0) + '%';
+    document.getElementById('notasTextarea').value = saved.notas || '';
+  }
+  
+  document.getElementById('obsModal').classList.add('open');
 }
+
+function cerrarModal(){
+  document.getElementById('obsModal').classList.remove('open');
+  currentRank = null;
+  currentNombre = null;
+}
+
+async function guardarObservacion(){
+  if(!currentRank || !currentNombre) return;
+  
+  const avance = parseInt(document.getElementById('avanceSlider').value);
+  const notas = document.getElementById('notasTextarea').value;
+  
+  // Guardar en localStorage como respaldo
+  const data = {avance, notas};
+  localStorage.setItem('obs-'+currentRank, JSON.stringify(data));
+  
+  // Guardar en Firestore
+  const success = await guardarObservacionFirestore(currentRank, avance, notas, currentNombre);
+  
+  cerrarModal();
+  if(success){
+    alert('✓ Observación guardada en Firestore');
+  } else {
+    alert('⚠ Se guardó localmente pero falló sincronización con Firestore');
+  }
+}
+
+// Actualizar valor del slider
+document.addEventListener('DOMContentLoaded',()=>{
+  const slider = document.getElementById('avanceSlider');
+  if(slider){
+    slider.addEventListener('input',(e)=>{
+      document.getElementById('avanceValue').textContent = e.target.value + '%';
+    });
+  }
+  
+  // Cerrar modal al presionar Escape
+  document.addEventListener('keydown',(e)=>{
+    if(e.key==='Escape') cerrarModal();
+  });
+  
+  // Cerrar modal al hacer click fuera
+  document.getElementById('obsModal').addEventListener('click',(e)=>{
+    if(e.target.id==='obsModal') cerrarModal();
+  });
+});
 </script>
 
 
