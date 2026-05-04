@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)file:///C:/Users/cpulgarin/Downloads/index_5.html -->
+<!-- saved from url=(0049)file:///C:/Users/cpulgarin/Downloads/index_6.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -454,12 +454,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
             <span class="freq-group-count">4 temas priorizados</span>
           </div>
         </td>
-      </tr><tr class="freq-row freq-clickable" onclick="toggleFreqDet(2)" id="frow-2">
+      </tr><tr class="freq-row freq-clickable freq-row-active" onclick="toggleFreqDet(2)" id="frow-2">
       <td class="freq-rank">2</td>
       <td>
         <div class="freq-name">Pedidos en Excel antes de SINCO — doble digitación sin valor</div>
         <div class="freq-sub">Aprobación en Excel y re-digitación en SINCO · SSTA sin acceso · proyección manual</div>
-        <span class="freq-expand-hint" id="fhint-2">▼ ver detalle por sesión</span>
+        <span class="freq-expand-hint" id="fhint-2">▲ cerrar</span>
       </td>
       <td><div class="freq-dots">
         <div class="dot dot-rl"></div>
@@ -475,9 +475,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <td style="text-align:right;padding-right:12px;">
         <button class="obs-btn" onclick="abrirModalObservacion(2, &#39;Pedidos en Excel antes de SINCO — doble digitación sin valor&#39;)">💭 Obs.</button>
       </td>
-    </tr><tr id="fdetrow-2" class="freq-det-row">
+    </tr><tr id="fdetrow-2" class="freq-det-row freq-det-open">
         <td colspan="5" style="padding:0">
-          <div class="freq-det-box" id="fdetbox-2">
+          <div class="freq-det-box open" id="fdetbox-2">
             <div class="fdet-tabs-bar">
               
                 <button class="fdet-tab-btn active" style="border-bottom-color:#a06000;color:#a06000" onclick="switchFdet(2,&#39;cons&#39;,this,&#39;#a06000&#39;)" id="fdtab-2-cons">
@@ -5874,7 +5874,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div id="obsModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-title">Observación del proyecto</div>
-    <div class="modal-subtitle" id="modalSubtitle"></div>
+    <div class="modal-subtitle" id="modalSubtitle">Pedidos en Excel antes de SINCO — doble digitación sin valor</div>
     
     <div class="form-group">
       <label class="form-label">Nivel de avance (%)</label>
@@ -7152,21 +7152,32 @@ function renderSesiones(){
 // ══════════════════════════════════════════
 // ── FIREBASE CONFIGURATION ──
 // ══════════════════════════════════════════
-const firebaseConfig = {
-  apiKey: "AIzaSyBAinJFY0GUTJU0yGSddi8KsfrwoVd6hU0",
-  authDomain: "ingeurbe-tour-ia.firebaseapp.com",
-  projectId: "ingeurbe-tour-ia",
-  storageBucket: "ingeurbe-tour-ia.firebasestorage.app",
-  messagingSenderId: "867159594069",
-  appId: "1:867159594069:web:467c03957e66c3ceaab0dc"
-};
+let db = null;
 
-// Inicializar Firebase cuando esté listo
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+function inicializarFirebase(){
+  try {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAinJFY0GUTJU0yGSddi8KsfrwoVd6hU0",
+      authDomain: "ingeurbe-tour-ia.firebaseapp.com",
+      projectId: "ingeurbe-tour-ia",
+      storageBucket: "ingeurbe-tour-ia.firebasestorage.app",
+      messagingSenderId: "867159594069",
+      appId: "1:867159594069:web:467c03957e66c3ceaab0dc"
+    };
+    
+    if(!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+    }
+    db = firebase.firestore();
+    console.log("✓ Firebase inicializado");
+  } catch (error) {
+    console.warn("⚠ Firebase no disponible, usando localStorage:", error);
+  }
+}
 
 // ── FUNCIONES FIRESTORE ──
 async function guardarObservacionFirestore(rank, avance, notas, nombre){
+  if(!db) return false;
   try {
     await db.collection("observaciones").doc("rank-"+rank).set({
       rank: rank,
@@ -7175,6 +7186,7 @@ async function guardarObservacionFirestore(rank, avance, notas, nombre){
       notas: notas,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
+    console.log("✓ Guardado en Firestore: rank-"+rank);
     return true;
   } catch (error) {
     console.error("Error guardando en Firestore:", error);
@@ -7183,9 +7195,11 @@ async function guardarObservacionFirestore(rank, avance, notas, nombre){
 }
 
 async function cargarObservacionFirestore(rank){
+  if(!db) return null;
   try {
     const doc = await db.collection("observaciones").doc("rank-"+rank).get();
     if(doc.exists){
+      console.log("✓ Cargado de Firestore: rank-"+rank);
       return doc.data();
     }
     return null;
@@ -7195,39 +7209,45 @@ async function cargarObservacionFirestore(rank){
   }
 }
 
-renderFreq();
-renderAreas();
-renderIniciativas();
-renderPatrones();
-renderSesiones();
+// Inicializar Firebase
+inicializarFirebase();
 
 // ── FUNCIONES MODAL OBSERVACIÓN ──
 let currentRank = null;
 let currentNombre = null;
 
-async function abrirModalObservacion(rank, nombre){
+function abrirModalObservacion(rank, nombre){
   currentRank = rank;
   currentNombre = nombre;
   document.getElementById('modalSubtitle').textContent = nombre;
   
-  // Intentar cargar de Firestore primero
-  const dataFirestore = await cargarObservacionFirestore(rank);
+  // Mostrar modal inmediatamente
+  document.getElementById('obsModal').classList.add('open');
   
-  if(dataFirestore){
-    document.getElementById('avanceSlider').value = dataFirestore.avance || 0;
-    document.getElementById('avanceValue').textContent = (dataFirestore.avance || 0) + '%';
-    document.getElementById('notasTextarea').value = dataFirestore.notas || '';
-  } else {
-    // Si no está en Firestore, intentar cargar de localStorage (respaldo)
+  // Cargar datos de forma asíncrona sin bloquear
+  cargarObservacionFirestore(rank).then(dataFirestore => {
+    if(dataFirestore){
+      document.getElementById('avanceSlider').value = dataFirestore.avance || 0;
+      document.getElementById('avanceValue').textContent = (dataFirestore.avance || 0) + '%';
+      document.getElementById('notasTextarea').value = dataFirestore.notas || '';
+    } else {
+      // Si no está en Firestore, intentar cargar de localStorage (respaldo)
+      const key = 'obs-'+rank;
+      const saved = JSON.parse(localStorage.getItem(key) || '{"avance":0,"notas":""}');
+      
+      document.getElementById('avanceSlider').value = saved.avance || 0;
+      document.getElementById('avanceValue').textContent = (saved.avance || 0) + '%';
+      document.getElementById('notasTextarea').value = saved.notas || '';
+    }
+  }).catch(err => {
+    console.error("Error cargando:", err);
+    // Fallback a localStorage
     const key = 'obs-'+rank;
     const saved = JSON.parse(localStorage.getItem(key) || '{"avance":0,"notas":""}');
-    
     document.getElementById('avanceSlider').value = saved.avance || 0;
     document.getElementById('avanceValue').textContent = (saved.avance || 0) + '%';
     document.getElementById('notasTextarea').value = saved.notas || '';
-  }
-  
-  document.getElementById('obsModal').classList.add('open');
+  });
 }
 
 function cerrarModal(){
@@ -7256,6 +7276,12 @@ async function guardarObservacion(){
     alert('⚠ Se guardó localmente pero falló sincronización con Firestore');
   }
 }
+
+renderFreq();
+renderAreas();
+renderIniciativas();
+renderPatrones();
+renderSesiones();
 
 // Actualizar valor del slider
 document.addEventListener('DOMContentLoaded',()=>{
