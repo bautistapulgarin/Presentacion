@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_21.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_22.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7248,8 +7248,37 @@ async function cargarObservacionFirestore(rank){
   }
 }
 
-// Inicializar Firebase inmediatamente
-inicializarFirebase();
+// Inicializar Firebase con reintentos
+setTimeout(() => {
+  console.log("Intento 1: Inicializando Firebase...");
+  inicializarFirebase();
+}, 100);
+
+// Reintentos automáticos después de cargar
+window.addEventListener('load', () => {
+  console.log("Evento load disparado");
+  
+  setTimeout(() => {
+    if(!firebaseReady) {
+      console.log("Intento 2 de reinitializar Firebase...");
+      inicializarFirebase();
+    }
+  }, 500);
+  
+  setTimeout(() => {
+    if(!firebaseReady) {
+      console.log("Intento 3 de reinitializar Firebase...");
+      inicializarFirebase();
+    }
+  }, 1500);
+  
+  setTimeout(() => {
+    if(!firebaseReady) {
+      console.log("Intento 4 de reinitializar Firebase...");
+      inicializarFirebase();
+    }
+  }, 3000);
+});
 
 // ══════════════════════════════════════════════════════════════════════════════
 // FUNCIÓN DE PRUEBA FIRESTORE
@@ -7327,6 +7356,13 @@ function abrirObsModal(e, rank, nombre){
   if(!firebaseReady) {
     console.log("Firebase no listo, intentando inicializar...");
     inicializarFirebase();
+    
+    // Si sigue sin estar listo, esperar un poco
+    if(!firebaseReady) {
+      setTimeout(() => {
+        inicializarFirebase();
+      }, 500);
+    }
   }
   
   console.log("Abriendo modal para:", rank, nombre);
