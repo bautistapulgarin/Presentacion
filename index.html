@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_13.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_14.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7243,10 +7243,13 @@ inicializarFirebase();
 
 // Si Firebase no se inicializó, intentar de nuevo después de cargar
 window.addEventListener('load', () => {
-  if(!firebaseReady) {
-    console.log("Reintentando inicializar Firebase...");
-    inicializarFirebase();
-  }
+  console.log("Evento load disparado");
+  setTimeout(() => {
+    if(!firebaseReady) {
+      console.log("Reintentando inicializar Firebase...");
+      inicializarFirebase();
+    }
+  }, 1000);
 });
 
 // ── FUNCIONES MODAL OBSERVACIÓN ──
@@ -7255,6 +7258,13 @@ let currentNombre = null;
 
 function abrirObsModal(e, rank, nombre){
   if(e) e.stopPropagation();
+  
+  // Si Firebase no está listo, intentar inicializar
+  if(!firebaseReady) {
+    console.log("Firebase no listo, intentando inicializar...");
+    inicializarFirebase();
+  }
+  
   console.log("Abriendo modal para:", rank, nombre);
   abrirModalObservacion(rank, nombre);
 }
@@ -7353,6 +7363,26 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('obsModal').addEventListener('click',(e)=>{
     if(e.target.id==='obsModal') cerrarModal();
   });
+  
+  // Función global para debuggear en la consola
+  window.debugFirebase = () => {
+    console.log("=== DEBUG FIREBASE ===");
+    console.log("Firebase disponible?", typeof firebase !== 'undefined');
+    console.log("firebaseReady?", firebaseReady);
+    console.log("db?", !!db);
+    console.log("firebase.apps.length?", firebase?.apps?.length);
+    console.log("ProjectId en config:", firebaseConfig.projectId);
+    
+    if(typeof firebase !== 'undefined' && db) {
+      console.log("✓ Firestore debería estar funcionando");
+    } else {
+      console.log("❌ Firestore NO está inicializado");
+      console.log("Intentando inicializar...");
+      inicializarFirebase();
+    }
+  };
+  
+  console.log("Puedes ejecutar: debugFirebase() en la consola para diagnosticar");
 });
 </script>
 
