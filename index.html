@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_17.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_18.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -430,6 +430,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <button class="nav-btn" onclick="showPanel(&#39;iniciativas&#39;,this)">Iniciativas</button>
   <button class="nav-btn" onclick="showPanel(&#39;patrones&#39;,this)">Patrones</button>
   <button class="nav-btn" onclick="showPanel(&#39;sesiones&#39;,this)">Por sesión</button>
+  <button class="nav-btn" onclick="pruebaFirestore()" style="margin-left:auto;background:#ff6b6b;border-color:#ff6b6b;font-weight:bold;">🧪 Prueba Firestore</button>
 </nav>
 
 <!-- PANEL FRECUENCIA -->
@@ -7249,6 +7250,53 @@ async function cargarObservacionFirestore(rank){
 
 // Inicializar Firebase inmediatamente
 inicializarFirebase();
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FUNCIÓN DE PRUEBA FIRESTORE
+// ══════════════════════════════════════════════════════════════════════════════
+
+async function pruebaFirestore(){
+  console.log("=== PRUEBA FIRESTORE ===");
+  
+  // Verificar estado
+  console.log("1. Estado actual:");
+  console.log("   - firebaseReady:", firebaseReady);
+  console.log("   - db:", !!db);
+  console.log("   - firebase:", typeof firebase !== 'undefined');
+  
+  // Si no está listo, intentar inicializar
+  if(!firebaseReady){
+    console.log("\n2. Firebase no está listo, intentando inicializar...");
+    const resultado = inicializarFirebase();
+    console.log("   - Resultado:", resultado);
+  }
+  
+  // Intentar escribir
+  if(db){
+    console.log("\n3. Intentando escribir en Firestore...");
+    try {
+      const timestamp = new Date().toISOString();
+      const docId = "prueba-" + Date.now();
+      
+      await db.collection("test").doc(docId).set({
+        mensaje: "Prueba de escritura",
+        timestamp: timestamp,
+        firebaseReady: firebaseReady
+      });
+      
+      console.log("   ✓ ÉXITO - Documento guardado en 'test/" + docId + "'");
+      alert("✓ ÉXITO - Datos guardados en Firestore\n\nVe a Firebase Console → Firestore Database → Datos para verlo");
+      
+    } catch (error) {
+      console.error("   ❌ ERROR al guardar:", error.message);
+      console.error("   Código:", error.code);
+      alert("❌ ERROR - No se pudo guardar:\n\n" + error.message);
+    }
+  } else {
+    console.error("❌ db no está disponible");
+    alert("❌ Firestore no está inicializado");
+  }
+}
 
 // Reintentos automáticos después de cargar
 window.addEventListener('load', () => {
