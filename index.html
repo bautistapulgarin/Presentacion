@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)file:///C:/Users/cpulgarin/Downloads/index_9.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_10.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7153,42 +7153,44 @@ function renderSesiones(){
 // ── FIREBASE CONFIGURATION ──
 // ══════════════════════════════════════════
 let db = null;
+let firebaseReady = false;
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCrUQEmeIMU2PbM_V2fZlifVDduDh5ge50",
+  authDomain: "ingeurbe-obs.firebaseapp.com",
+  projectId: "ingeurbe-obs",
+  storageBucket: "ingeurbe-obs.firebasestorage.app",
+  messagingSenderId: "332889244138",
+  appId: "1:332889244138:web:8fa7e3ac81b08590d97293"
+};
 
 function inicializarFirebase(){
   try {
-    console.log("Inicializando Firebase...");
-    const firebaseConfig = {
-      apiKey: "AIzaSyBAinJFY0GUTJU0yGSddi8KsfrwoVd6hU0",
-      authDomain: "ingeurbe-tour-ia.firebaseapp.com",
-      projectId: "ingeurbe-tour-ia",
-      storageBucket: "ingeurbe-tour-ia.firebasestorage.app",
-      messagingSenderId: "867159594069",
-      appId: "1:867159594069:web:467c03957e66c3ceaab0dc"
-    };
-    
-    console.log("Config:", firebaseConfig);
+    if(typeof firebase === 'undefined'){
+      console.warn("⚠ Firebase SDK no cargado");
+      return;
+    }
     
     if(!firebase.apps.length){
       firebase.initializeApp(firebaseConfig);
-      console.log("✓ App inicializada");
     }
     db = firebase.firestore();
-    console.log("✓ Firestore inicializado");
-    console.log("Firestore instance:", db);
+    firebaseReady = true;
+    console.log("✓ Firebase inicializado correctamente");
   } catch (error) {
-    console.error("❌ Error inicializando Firebase:", error);
-    console.error("Detalles:", error.message);
+    console.error("⚠ Firebase error:", error.message);
+    firebaseReady = false;
   }
 }
 
 // ── FUNCIONES FIRESTORE ──
 async function guardarObservacionFirestore(rank, avance, notas, nombre){
-  if(!db) {
-    console.warn("⚠ Firestore no inicializado");
+  if(!firebaseReady || !db) {
+    console.log("ℹ Firestore no disponible, usando solo localStorage");
     return false;
   }
+  
   try {
-    console.log("Intentando guardar en Firestore:", {rank, nombre, avance, notas});
     await db.collection("observaciones").doc("rank-"+rank).set({
       rank: rank,
       nombre: nombre,
@@ -7199,18 +7201,16 @@ async function guardarObservacionFirestore(rank, avance, notas, nombre){
     console.log("✓ Guardado en Firestore: rank-"+rank);
     return true;
   } catch (error) {
-    console.error("❌ Error guardando en Firestore:", error);
-    console.error("Código de error:", error.code);
-    console.error("Mensaje:", error.message);
+    console.error("❌ Error en Firestore:", error.message);
     return false;
   }
 }
 
 async function cargarObservacionFirestore(rank){
-  if(!db) {
-    console.warn("⚠ Firestore no inicializado");
+  if(!firebaseReady || !db) {
     return null;
   }
+  
   try {
     const doc = await db.collection("observaciones").doc("rank-"+rank).get();
     if(doc.exists){
@@ -7219,7 +7219,7 @@ async function cargarObservacionFirestore(rank){
     }
     return null;
   } catch (error) {
-    console.error("❌ Error cargando de Firestore:", error);
+    console.error("❌ Error cargando de Firestore:", error.message);
     return null;
   }
 }
@@ -7284,18 +7284,22 @@ async function guardarObservacion(){
   const avance = parseInt(document.getElementById('avanceSlider').value);
   const notas = document.getElementById('notasTextarea').value;
   
-  // Guardar en localStorage como respaldo
+  // Guardar en localStorage
   const data = {avance, notas};
   localStorage.setItem('obs-'+currentRank, JSON.stringify(data));
+  console.log("✓ Guardado localmente:", currentRank);
   
-  // Guardar en Firestore
+  // Intentar guardar en Firestore
   const success = await guardarObservacionFirestore(currentRank, avance, notas, currentNombre);
   
   cerrarModal();
+  
   if(success){
-    alert('✓ Observación guardada en Firestore');
+    alert('✓ Guardado en Firestore');
+  } else if(firebaseReady){
+    alert('⚠ Guardado localmente pero error con Firestore');
   } else {
-    alert('⚠ Se guardó localmente pero falló sincronización con Firestore');
+    alert('✓ Guardado (localStorage)');
   }
 }
 
