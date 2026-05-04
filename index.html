@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///C:/Users/cpulgarin/Downloads/index_mejorado_3.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="es">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Consolidado Tour IA — Ingeurbe</title>
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./index_files/css2" rel="stylesheet">
-<!-- Firebase SDK -->
-<script src="./index_files/firebase-app.js.descarga"></script>
-<script src="./index_files/firebase-firestore.js.descarga"></script>
-<script src="./index_files/firebase-auth.js.descarga"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#f8f9fb; --bg2:#ffffff; --bg3:#f1f3f7; --bg4:#e4e7ef;
@@ -85,34 +81,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .badge-1{background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
 .legend-row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);}
-
-/* ── OBSERVACIONES ── */
-.obs-row{display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);align-items:flex-start;}
-.obs-textarea{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);resize:vertical;min-height:60px;background:var(--bg2);}
-.obs-textarea:focus{outline:none;border-color:var(--green);background:var(--bg2);box-shadow:0 0 0 2px rgba(13,127,95,0.1);}
-.obs-textarea:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;}
-.obs-buttons{display:flex;flex-direction:column;gap:6px;}
-.obs-btn{padding:8px 12px;border-radius:var(--radius-sm);border:1px solid;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.obs-save{background:var(--green);border-color:var(--green);color:#fff;}
-.obs-save:hover{opacity:0.9;transform:translateY(-1px);}
-.obs-cancel{background:transparent;border-color:var(--border2);color:var(--text2);}
-.obs-cancel:hover{border-color:var(--text3);}
-.obs-hist{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);}
-.obs-hist:hover{opacity:0.85;}
-
-/* ── MODAL HISTÓRICO ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center;}
-.modal-overlay.active{display:flex;animation:fadeIn .2s ease;}
-.modal{background:var(--bg2);border-radius:var(--radius);max-width:600px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
-.modal-header{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-size:16px;font-weight:600;color:var(--text);}
-.modal-close{background:none;border:none;font-size:20px;color:var(--text3);cursor:pointer;transition:color .15s;}
-.modal-close:hover{color:var(--text);}
-.modal-body{flex:1;overflow-y:auto;padding:16px 22px;}
-.hist-item{padding:12px;background:var(--bg3);border-left:2px solid var(--green);border-radius:var(--radius-sm);margin-bottom:10px;}
-.hist-meta{display:flex;justify-content:space-between;margin-bottom:6px;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
-.hist-text{font-size:12px;color:var(--text);line-height:1.5;word-break:break-word;}
-.hist-empty{text-align:center;padding:30px 20px;color:var(--text3);font-size:12px;}
 
 /* ── AREAS ── */
 .area-section{margin-bottom:24px;}
@@ -397,17 +365,18 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <!-- HERO -->
 <div class="hero">
-  <img id="site-logo" src="file:///C:/getsitelogo.png" class="hero-logo" alt="Logo Ingeurbe" onerror="
-    var paths=[&#39;./getsitelogo.png&#39;,&#39;/getsitelogo.png&#39;];
+  <img id="site-logo" src="getsitelogo.png" class="hero-logo" alt="Logo Ingeurbe"
+  onerror="
+    var paths=['./getsitelogo.png','/getsitelogo.png'];
     var tried=this.dataset.tried||0;
     tried=parseInt(tried);
-    if(tried&lt;paths.length){
+    if(tried<paths.length){
       this.dataset.tried=tried+1;
       this.src=paths[tried];
     } else {
-      this.style.display=&#39;none&#39;;
+      this.style.display='none';
     }
-  " data-tried="2" style="display: none;">
+  " />
   <div class="hero-meta">Tour IA · <span>Ingeurbe</span> · Abril – Mayo 2025</div>
   <h1>Consolidado de <em>dolores</em> y oportunidades de mejora en obra</h1>
   <p class="hero-sub">Cuatro jornadas de observación en 10 proyectos activos. Patrones sistémicos, iniciativas priorizadas y oportunidades de automatización.</p>
@@ -430,11 +399,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="showPanel(&#39;frecuencia&#39;,this)">Por frecuencia</button>
-  <button class="nav-btn" onclick="showPanel(&#39;areas&#39;,this)">Por área</button>
-  <button class="nav-btn" onclick="showPanel(&#39;iniciativas&#39;,this)">Iniciativas</button>
-  <button class="nav-btn" onclick="showPanel(&#39;patrones&#39;,this)">Patrones</button>
-  <button class="nav-btn" onclick="showPanel(&#39;sesiones&#39;,this)">Por sesión</button>
+  <button class="nav-btn active" onclick="showPanel('frecuencia',this)">Por frecuencia</button>
+  <button class="nav-btn" onclick="showPanel('areas',this)">Por área</button>
+  <button class="nav-btn" onclick="showPanel('iniciativas',this)">Iniciativas</button>
+  <button class="nav-btn" onclick="showPanel('patrones',this)">Patrones</button>
+  <button class="nav-btn" onclick="showPanel('sesiones',this)">Por sesión</button>
 </nav>
 
 <!-- PANEL FRECUENCIA -->
@@ -475,16 +444,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="footer-text">Tour IA · Ingeurbe · Observaciones 21 abr – Mayo 2025</div>
   <div class="footer-text">Reserva del Lago · Viale · Madero · Flora · Albura · Corteza · Terra · Nativa · Piazza</div>
 </div>
-</div>
-
-<div class="modal-overlay" id="historyModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Histórico de observaciones</div>
-      <button class="modal-close" onclick="closeHistoryModal()">×</button>
-    </div>
-    <div class="modal-body" id="historyBody"></div>
-  </div>
 </div>
 
 <script>
@@ -1411,28 +1370,6 @@ function makeIdLinks(idsStr, color) {
   }).join('<br>');
 }
 
-/* ════════════════════════════════════════════
-   CONFIGURACIÓN FIREBASE
-════════════════════════════════════════════ */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBAinJFY0GUTJU0yGSddi8KsfrwoVd6hU0",
-  authDomain: "ingeurbe-tour-ia.firebaseapp.com",
-  projectId: "ingeurbe-tour-ia",
-  storageBucket: "ingeurbe-tour-ia.firebasestorage.app",
-  messagingSenderId: "867159594069",
-  appId: "1:867159594069:web:467c03957e66c3ceaab0dc"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
-
-// Autenticación anónima
-auth.signInAnonymously().catch(error => {
-  console.log("Error auth:", error);
-});
-
 function renderFreq(){
   const sesConfig = {
     rl:{label:'Reserva del Lago · 21 abr',color:'#0d7f5f'},
@@ -1519,10 +1456,6 @@ function renderFreq(){
         <div class="freq-name">${d.name}</div>
         <div class="freq-sub">${d.sub}</div>
         ${hasDetail?'<span class="freq-expand-hint" id="fhint-'+d.rank+'">▼ ver detalle por sesión</span>':''}
-        <div style="margin-top:10px;">
-          <button class="obs-btn" style="background:var(--green-bg);border-color:var(--green-border);color:var(--green);padding:6px 10px;font-size:10px;" onclick="event.stopPropagation();addObsRow('${d.name}')">+ Observación</button>
-        </div>
-        <div id="obs-inline-${getObsKey(d.name)}" style="margin-top:8px;"></div>
       </td>
       <td><div class="freq-dots">
         <div class="dot ${d.rl?'dot-rl':'dot-empty'}"></div>
@@ -1757,180 +1690,11 @@ function renderSesiones(){
     </div>`).join('');
 }
 
-/* ════════════════════════════════════════════
-   OBSERVACIONES Y HISTÓRICO
-════════════════════════════════════════════ */
-
-const obsStorage = {};
-
-function getObsKey(initName){
-  return 'obs-' + initName.toLowerCase().replace(/\s+/g,'-').substring(0,50);
-}
-
-function addObsRow(initName){
-  const key = getObsKey(initName);
-  const container = document.getElementById('obs-inline-'+key);
-  if(!container) return;
-  
-  let currentText = obsStorage[key]?.current || '';
-  
-  container.innerHTML = `
-    <div style="background:var(--bg3);padding:10px;border-radius:6px;margin-top:8px;">
-      <textarea class="obs-textarea" id="obs-text-${key}" placeholder="Nivel de avance, estado actual o cambios..." style="margin-bottom:8px;"></textarea>
-      <div style="display:flex;gap:6px;">
-        <button class="obs-btn obs-save" onclick="saveObs('${key}','${initName}');event.stopPropagation();">✓ Guardar</button>
-        <button class="obs-btn obs-cancel" onclick="cancelObs('${key}');event.stopPropagation();">✕ Cancelar</button>
-        <button class="obs-btn obs-hist" onclick="showHistory('${key}','${initName}');event.stopPropagation();">📋 Histórico</button>
-      </div>
-    </div>`;
-  document.getElementById('obs-text-'+key).value = currentText;
-  document.getElementById('obs-text-'+key).focus();
-}
-
-function saveObs(key, initName){
-  const textarea = document.getElementById('obs-text-'+key);
-  const text = textarea.value.trim();
-  
-  if(!text){
-    alert('Por favor ingresa una observación');
-    return;
-  }
-  
-  const obsRef = db.collection('observaciones').doc(key);
-  
-  obsRef.get().then(doc => {
-    let history = [];
-    
-    if(doc.exists){
-      history = doc.data().history || [];
-      if(doc.data().current){
-        history.unshift({
-          text: doc.data().current,
-          date: doc.data().lastUpdate || new Date().toISOString()
-        });
-      }
-    }
-    
-    return obsRef.set({
-      initName: initName,
-      key: key,
-      current: text,
-      lastUpdate: new Date().toISOString(),
-      history: history
-    });
-  }).then(() => {
-    obsStorage[key] = {current: text, history: []};
-    renderObsDisplay(key, initName);
-    alert('✓ Guardado en Firebase');
-  }).catch(error => {
-    alert('Error al guardar: ' + error.message);
-    console.error(error);
-  });
-}
-
-function cancelObs(key){
-  const initName = key.replace('obs-','').replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-  renderObsDisplay(key, initName);
-}
-
-function renderObsDisplay(keyOrName, initName){
-  const key = keyOrName.startsWith('obs-') ? keyOrName : getObsKey(keyOrName);
-  const container = document.getElementById('obs-inline-'+key);
-  if(!container) return;
-  
-  const obsRef = db.collection('observaciones').doc(key);
-  
-  obsRef.get().then(doc => {
-    if(!doc.exists || !doc.data().current){
-      container.innerHTML = '';
-      return;
-    }
-    
-    const obs = doc.data();
-    const date = new Date(obs.lastUpdate).toLocaleDateString('es-CO', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    
-    container.innerHTML = `
-      <div style="background:rgba(13,127,95,0.08);padding:10px;border-radius:6px;margin-top:8px;border-left:2px solid var(--green);">
-        <div style="font-size:9px;color:var(--text3);margin-bottom:4px;font-family:'DM Mono',monospace;">✓ Actualizado: ${date}</div>
-        <div style="font-size:12px;color:var(--text);margin-bottom:8px;line-height:1.4;">${obs.current}</div>
-        <div style="display:flex;gap:6px;">
-          <button class="obs-btn obs-save" onclick="addObsRow('${initName}');event.stopPropagation();" style="padding:4px 8px;font-size:9px;">✏️ Editar</button>
-          <button class="obs-btn obs-hist" onclick="showHistory('${key}','${initName}');event.stopPropagation();" style="padding:4px 8px;font-size:9px;">📋 Histórico (${obs.history?.length || 0})</button>
-        </div>
-      </div>`;
-  }).catch(error => {
-    console.error("Error cargando observación:", error);
-  });
-}
-
-function showHistory(key, initName){
-  const obsRef = db.collection('observaciones').doc(key);
-  
-  obsRef.get().then(doc => {
-    const historyBody = document.getElementById('historyBody');
-    
-    if(!doc.exists || !doc.data().history || doc.data().history.length === 0){
-      historyBody.innerHTML = '<div class="hist-empty">Sin registros históricos anteriores</div>';
-    } else {
-      const history = doc.data().history;
-      historyBody.innerHTML = history.map((h,i) => {
-        const date = new Date(h.date).toLocaleDateString('es-CO', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-        return `<div class="hist-item">
-          <div class="hist-meta">
-            <span>Versión ${i+1}</span>
-            <span>${date}</span>
-          </div>
-          <div class="hist-text">${h.text}</div>
-        </div>`;
-      }).join('');
-    }
-    
-    document.getElementById('historyModal').classList.add('active');
-  }).catch(error => {
-    console.error("Error cargando histórico:", error);
-  });
-}
-
-function closeHistoryModal(){
-  document.getElementById('historyModal').classList.remove('active');
-}
-
-function loadObservations(){
-  try {
-    const obsRef = db.collection('observaciones');
-    obsRef.onSnapshot(snapshot => {
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        obsStorage[data.key] = {
-          current: data.current,
-          history: data.history || []
-        };
-      });
-    });
-  } catch(e) {
-    console.log("Firebase no inicializado aún");
-  }
-}
-
-loadObservations();
-
-// Esperar a que Firebase esté listo antes de renderizar
-setTimeout(() => {
-  renderFreq();
-  // Inicializar vistas de observaciones después de renderizar
-  setTimeout(()=>{
-    Object.keys(obsStorage).forEach(key=>{
-      const initName = key.replace('obs-','').replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-      renderObsDisplay(key, initName);
-    });
-  },100);
-
-  renderAreas();
-  renderIniciativas();
-  renderPatrones();
-  renderSesiones();
-}, 500);
+renderFreq();
+renderAreas();
+renderIniciativas();
+renderPatrones();
+renderSesiones();
 </script>
-
-
-</body></html>
+</body>
+</html>
