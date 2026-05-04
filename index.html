@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_10.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_11.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7227,6 +7227,14 @@ async function cargarObservacionFirestore(rank){
 // Inicializar Firebase
 inicializarFirebase();
 
+// Si Firebase no se inicializó, intentar de nuevo después de cargar
+window.addEventListener('load', () => {
+  if(!firebaseReady) {
+    console.log("Reintentando inicializar Firebase...");
+    inicializarFirebase();
+  }
+});
+
 // ── FUNCIONES MODAL OBSERVACIÓN ──
 let currentRank = null;
 let currentNombre = null;
@@ -7288,6 +7296,8 @@ async function guardarObservacion(){
   const data = {avance, notas};
   localStorage.setItem('obs-'+currentRank, JSON.stringify(data));
   console.log("✓ Guardado localmente:", currentRank);
+  console.log("firebaseReady:", firebaseReady);
+  console.log("db:", db);
   
   // Intentar guardar en Firestore
   const success = await guardarObservacionFirestore(currentRank, avance, notas, currentNombre);
@@ -7296,10 +7306,8 @@ async function guardarObservacion(){
   
   if(success){
     alert('✓ Guardado en Firestore');
-  } else if(firebaseReady){
-    alert('⚠ Guardado localmente pero error con Firestore');
   } else {
-    alert('✓ Guardado (localStorage)');
+    alert('⚠ Guardado localmente (Firestore no disponible)');
   }
 }
 
