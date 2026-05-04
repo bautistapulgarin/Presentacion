@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0058)file:///C:/Users/cpulgarin/Downloads/index_mejorado_3.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Consolidado Tour IA — Ingeurbe</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./index_files/css2" rel="stylesheet">
 <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+<script src="./index_files/firebase-app.js.descarga"></script>
+<script src="./index_files/firebase-firestore.js.descarga"></script>
+<script src="./index_files/firebase-auth.js.descarga"></script>
 <style>
 :root {
   --bg:#f8f9fb; --bg2:#ffffff; --bg3:#f1f3f7; --bg4:#e4e7ef;
@@ -397,18 +397,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <!-- HERO -->
 <div class="hero">
-  <img id="site-logo" src="getsitelogo.png" class="hero-logo" alt="Logo Ingeurbe"
-  onerror="
-    var paths=['./getsitelogo.png','/getsitelogo.png'];
+  <img id="site-logo" src="file:///C:/getsitelogo.png" class="hero-logo" alt="Logo Ingeurbe" onerror="
+    var paths=[&#39;./getsitelogo.png&#39;,&#39;/getsitelogo.png&#39;];
     var tried=this.dataset.tried||0;
     tried=parseInt(tried);
-    if(tried<paths.length){
+    if(tried&lt;paths.length){
       this.dataset.tried=tried+1;
       this.src=paths[tried];
     } else {
-      this.style.display='none';
+      this.style.display=&#39;none&#39;;
     }
-  " />
+  " data-tried="2" style="display: none;">
   <div class="hero-meta">Tour IA · <span>Ingeurbe</span> · Abril – Mayo 2025</div>
   <h1>Consolidado de <em>dolores</em> y oportunidades de mejora en obra</h1>
   <p class="hero-sub">Cuatro jornadas de observación en 10 proyectos activos. Patrones sistémicos, iniciativas priorizadas y oportunidades de automatización.</p>
@@ -431,11 +430,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="showPanel('frecuencia',this)">Por frecuencia</button>
-  <button class="nav-btn" onclick="showPanel('areas',this)">Por área</button>
-  <button class="nav-btn" onclick="showPanel('iniciativas',this)">Iniciativas</button>
-  <button class="nav-btn" onclick="showPanel('patrones',this)">Patrones</button>
-  <button class="nav-btn" onclick="showPanel('sesiones',this)">Por sesión</button>
+  <button class="nav-btn active" onclick="showPanel(&#39;frecuencia&#39;,this)">Por frecuencia</button>
+  <button class="nav-btn" onclick="showPanel(&#39;areas&#39;,this)">Por área</button>
+  <button class="nav-btn" onclick="showPanel(&#39;iniciativas&#39;,this)">Iniciativas</button>
+  <button class="nav-btn" onclick="showPanel(&#39;patrones&#39;,this)">Patrones</button>
+  <button class="nav-btn" onclick="showPanel(&#39;sesiones&#39;,this)">Por sesión</button>
 </nav>
 
 <!-- PANEL FRECUENCIA -->
@@ -1915,19 +1914,23 @@ function loadObservations(){
 
 loadObservations();
 
-renderFreq();
-// Inicializar vistas de observaciones después de renderizar
-setTimeout(()=>{
-  Object.keys(obsStorage).forEach(key=>{
-    const initName = key.replace('obs-','').replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-    renderObsDisplay(key, initName);
-  });
-},100);
+// Esperar a que Firebase esté listo antes de renderizar
+setTimeout(() => {
+  renderFreq();
+  // Inicializar vistas de observaciones después de renderizar
+  setTimeout(()=>{
+    Object.keys(obsStorage).forEach(key=>{
+      const initName = key.replace('obs-','').replace(/-/g,' ').split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+      renderObsDisplay(key, initName);
+    });
+  },100);
 
-renderAreas();
-renderIniciativas();
-renderPatrones();
-renderSesiones();
+  renderAreas();
+  renderIniciativas();
+  renderPatrones();
+  renderSesiones();
+}, 500);
 </script>
-</body>
-</html>
+
+
+</body></html>
