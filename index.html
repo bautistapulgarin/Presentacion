@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_14.html -->
+<!-- saved from url=(0050)file:///C:/Users/cpulgarin/Downloads/index_16.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7169,26 +7169,35 @@ function inicializarFirebase(){
     console.log("Iniciando Firebase...");
     
     if(typeof firebase === 'undefined'){
-      console.error("❌ Firebase SDK no está cargado");
+      console.error("❌ Firebase SDK no está cargado aún");
       return false;
     }
     
-    console.log("Firebase SDK disponible");
+    console.log("✓ Firebase SDK disponible");
+    console.log("Apps registradas:", firebase.apps.length);
     
+    // Inicializar app si no existe
     if(!firebase.apps.length){
-      console.log("Inicializando app...");
+      console.log("Inicializando app con config:", firebaseConfig.projectId);
       firebase.initializeApp(firebaseConfig);
+      console.log("✓ App inicializada");
+    } else {
+      console.log("✓ App ya estaba inicializada");
     }
     
+    // Obtener referencia a Firestore
     db = firebase.firestore();
-    firebaseReady = true;
+    console.log("✓ Firestore instancia obtenida");
     
-    console.log("✓ Firebase inicializado correctamente");
-    console.log("ProjectId:", firebaseConfig.projectId);
+    firebaseReady = true;
+    console.log("✓✓✓ FIREBASE LISTO PARA USAR ✓✓✓");
+    
     return true;
     
   } catch (error) {
-    console.error("❌ Error inicializando Firebase:", error.message);
+    console.error("❌ Error inicializando Firebase:", error);
+    console.error("Código:", error.code);
+    console.error("Mensaje:", error.message);
     firebaseReady = false;
     return false;
   }
@@ -7238,18 +7247,25 @@ async function cargarObservacionFirestore(rank){
   }
 }
 
-// Inicializar Firebase
+// Inicializar Firebase inmediatamente
 inicializarFirebase();
 
-// Si Firebase no se inicializó, intentar de nuevo después de cargar
+// Reintentos automáticos después de cargar
 window.addEventListener('load', () => {
   console.log("Evento load disparado");
   setTimeout(() => {
     if(!firebaseReady) {
-      console.log("Reintentando inicializar Firebase...");
+      console.log("Intento 1 de reinitializar Firebase...");
       inicializarFirebase();
     }
-  }, 1000);
+  }, 500);
+  
+  setTimeout(() => {
+    if(!firebaseReady) {
+      console.log("Intento 2 de reinitializar Firebase...");
+      inicializarFirebase();
+    }
+  }, 2000);
 });
 
 // ── FUNCIONES MODAL OBSERVACIÓN ──
